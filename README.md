@@ -1,6 +1,119 @@
 # mongration
 
+> A node.js migration framework for MongoDB.
+
+This is a javascript framework that connects to a mongoDB and run the migrations following the specified order.
+It is very different from other similar projects because of:
+* **checksum** — issues an error whenever a change on an already migrated file was changed,
+* **persists migration state** — all migrations are persisted on database,
+* **replica sets** — replica sets are fully suported,
+* **rollback** — rollback process is automatically started whenever an error happens during a migration,
+* **sync / async migrations** — developers can run multiple migrations in sync or async ways,
+* **multiple databases migrations** — developers can run multiple databases migrations sync / asynchronously
+
+
+**Table of Contents**  
+
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Configuration](#configuration)
+  - [Creating `Migration` object](#creating-migration-object)
+  - [Adding steps to the migration](#adding-steps-to-the-migration)
+    - [Multiple queries example](#multiple-queries-example)
+  - [Running migrations](#running-migrations)
+    - [Migration outputs](#migration-outputs)
+- [Included features](#included-features)
+  - [Checksum](#checksum)
+  - [Migration state persisted](#migration-state-persisted)
+  - [Replica set support](#replica-set-support)
+  - [Rollback](#rollback)
+  - [Sync and async migrations](#sync-and-async-migrations)
+  - [Multiple databases migrations](#multiple-databases-migrations)
+- [License](#license)
+  
+
+
+## Installation
+
+```bash
+  npm install mongration --save
+```
+
+
+## Usage
+
 TBD
+
+
+### Configuration
+
+TBD
+
+
+### Creating `Migration` object
+
+TBD
+
+
+### Adding steps to the migration
+
+TBD
+
+
+### Adding steps to the migration
+
+TBD
+
+
+#### Multiple queries example
+
+TBD
+
+
+### Running migrations
+
+TBD
+
+
+#### Migration outputs
+
+TBD
+
+
+## Included features
+
+TBD
+
+
+## Checksum
+
+TBD
+
+
+## Migration state persisted
+
+TBD
+
+
+## Replica set support
+
+TBD
+
+
+## Rollback
+
+TBD
+
+
+## Sync and async migrations
+
+TBD
+
+
+## Multiple databases migrations
+
+TBD
+
 
 ## License
 
