@@ -47,7 +47,20 @@ TBD
 
 ### Configuration
 
-TBD
+The configuration object is a straightforward javascript object that contains the MongoDb access and the collection that will be used to save the migration state:
+
+```javascript
+module.exports = {
+  hosts: 'my.host.com:27017',
+  db: 'mydb',
+  user : 'myuser',
+  password : 'mypass',
+  replicaSet : 'myreplica',
+  migrationCollection: 'migrationversion'
+}
+```
+
+Both **hosts** and **migrationCollection** parameters are required.
 
 
 ### Creating `Migration` object
