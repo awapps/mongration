@@ -1,5 +1,5 @@
 'use strict';
 
 module.exports = {
-	Migration : require('./src/migration')
+    Migration : require('./src/migration')
 };

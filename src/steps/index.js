@@ -1,3 +1,3 @@
 module.exports = {
-	Reader : require('./step-file-reader')
+    Reader : require('./step-file-reader')
 }
