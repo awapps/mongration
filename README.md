@@ -18,7 +18,8 @@ It is very different from other similar projects because of:
 - [Usage](#usage)
   - [Configuration](#configuration)
   - [Creating `Migration` object](#creating-migration-object)
-  - [Adding steps to the migration](#adding-steps-to-the-migration)
+  - [Creating migration steps](#creating-migration-steps)
+  - [Adding steps to the migration](#adding-steps-to-the-migration)  
     - [Multiple queries example](#multiple-queries-example)
   - [Running migrations](#running-migrations)
     - [Migration outputs](#migration-outputs)
@@ -42,7 +43,11 @@ It is very different from other similar projects because of:
 
 ## Usage
 
-TBD
+It's a simple node module, just `require` it:
+
+```javascript
+var Migration = require('mongration').Migration;
+```
 
 
 ### Configuration
@@ -64,10 +69,16 @@ Both **hosts** and **migrationCollection** parameters are required. Please use *
 
 ### Creating `Migration` object
 
-TBD
+Simply `require` mongration constructor and initialize it with your [Configuration](#configuration):
 
+```javascript
+var mydbConfig = require('./config');
 
-### Adding steps to the migration
+var Migration = require('mongration').Migration;
+var mydbMigration = new Migration(mydbConfig);
+```
+
+### Creating migration steps
 
 TBD
 
