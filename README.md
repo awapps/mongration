@@ -3,7 +3,7 @@
 > A node.js migration framework for MongoDB.
 
 This is a javascript framework that connects to a mongoDB and run the migrations following the specified order.
-It is very different from other similar projects because of:
+It is very different from other similar projects because of: 
 * **checksum** — issues an error whenever a change on an already migrated file was changed,
 * **persists migration state** — all migrations are persisted on database,
 * **replica sets** — replica sets are fully suported,
@@ -78,10 +78,25 @@ var Migration = require('mongration').Migration;
 var mydbMigration = new Migration(mydbConfig);
 ```
 
+
 ### Creating migration steps
 
-TBD
+`Migration` object exposes an `add` method which receives both single or bulk migration steps. This framework also makes use of [nodejs path module](https://nodejs.org/api/path.html) to discover migration step absolute path:
 
+```javascript
+var path = require('path');
+
+// adding bulk
+mydbMigration.add([
+    path.join(__dirname, './migrations-folder/1-step.js'),
+    path.join(__dirname, './migrations-folder/2-step.js')
+]);
+
+// adding single
+migration.add(path.join(__dirname, './migrations-folder/3-step.js'));
+```
+
+*Having file path is required for [checksum](#checksum) security routine.*
 
 ### Adding steps to the migration
 
