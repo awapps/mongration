@@ -82,10 +82,25 @@ var mydbMigration = new Migration(mydbConfig);
 ### Creating migration steps
 
 
+```javascript
+module.exports = {
+    id: '1-step',
+
+    up : function(db, cb){
+        db.collection('testcollection').insert({ name: 'initial-setup' }, cb);
+    },
+
+    down : function(db, cb){
+        db.collection('testcollection').remove({ name: 'initial-setup' }, cb);
+    }
+}
+```
+
 
 ### Adding steps to migration
 
 `Migration` object exposes an `add` method which receives both single or bulk migration steps. You must provide the migration file path to this framework so it can read it and run [checksum](#checksum) security routine.
+
 We suggest [nodejs path module](https://nodejs.org/api/path.html) to discover migration step absolute path:
 
 ```javascript
