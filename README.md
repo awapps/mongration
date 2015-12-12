@@ -19,7 +19,7 @@ It is very different from other similar projects because of:
   - [Configuration](#configuration)
   - [Creating `Migration` object](#creating-migration-object)
   - [Creating migration steps](#creating-migration-steps)
-  - [Adding steps to the migration](#adding-steps-to-the-migration)  
+  - [Adding steps to migration](#adding-steps-to-migration)  
     - [Multiple queries example](#multiple-queries-example)
   - [Running migrations](#running-migrations)
     - [Migration outputs](#migration-outputs)
@@ -81,7 +81,12 @@ var mydbMigration = new Migration(mydbConfig);
 
 ### Creating migration steps
 
-`Migration` object exposes an `add` method which receives both single or bulk migration steps. This framework also makes use of [nodejs path module](https://nodejs.org/api/path.html) to discover migration step absolute path:
+
+
+### Adding steps to migration
+
+`Migration` object exposes an `add` method which receives both single or bulk migration steps. You must provide the migration file path to this framework so it can read it and run [checksum](#checksum) security routine.
+We suggest [nodejs path module](https://nodejs.org/api/path.html) to discover migration step absolute path:
 
 ```javascript
 var path = require('path');
@@ -95,12 +100,6 @@ mydbMigration.add([
 // adding single
 migration.add(path.join(__dirname, './migrations-folder/3-step.js'));
 ```
-
-*Having file path is required for [checksum](#checksum) security routine.*
-
-### Adding steps to the migration
-
-TBD
 
 
 #### Multiple queries example
