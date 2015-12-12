@@ -81,6 +81,10 @@ var mydbMigration = new Migration(mydbConfig);
 
 ### Creating migration steps
 
+A migration step is a regular javascript object which has 3 properties: 
+* `id` — Migration step ID **must be unique** (**required**): Will be used to save migration state on database
+* `up` — Migration script itself (**required**): Uses MongoDB [native driver](http://mongodb.github.io/node-mongodb-native/) to run commands on database
+* `down` — Rollback script itself (*optional*): Will be used in case migration has any error
 
 ```javascript
 module.exports = {
@@ -95,6 +99,8 @@ module.exports = {
     }
 }
 ```
+
+Both `up` and `down` receive two parameters: **db** (MongoDB connection) and **cb** (a callback function that will tell the framework that the step has been completed with / out errors).
 
 
 ### Adding steps to migration
