@@ -127,7 +127,7 @@ migration.add(path.join(__dirname, './migrations-folder/3-step.js'));
 
 This framework supports multiple queries within the same migration step — developer just needs to handle local callbacks (between queries) and call framework back whenever the whole step is done.
 
-We strongly suggest you to use [async module](https://www.npmjs.com/package/async) to handle asynchronous javascript. Example of multiple queries:
+We strongly suggest you to use [async module](https://www.npmjs.com/package/async) to handle asynchronous javascript. Multiple queries example:
 
 ```javascript
 var async = require('async');
@@ -151,7 +151,15 @@ module.exports = {
 
 ### Running migrations
 
-TBD
+After adding all steps to your migration, you simply need to run it like:
+
+```javascript
+migration.migrate(function(err, results){});
+```
+
+The `migrate` callback function receives 2 parameters:
+* `err` — Error message (if the migration did not run properly)
+* `results` — A list of status for each migration step. See more on [Migration outputs](#migration-outputs).
 
 
 #### Migration outputs
