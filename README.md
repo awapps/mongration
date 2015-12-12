@@ -84,7 +84,7 @@ var mydbMigration = new Migration(mydbConfig);
 A migration step is a regular javascript object which has 3 properties: 
 * `id` — Migration step ID **must be unique** (**required**): Will be used to save migration state on database
 * `up` — Migration script itself (**required**): Uses MongoDB [native driver](http://mongodb.github.io/node-mongodb-native/) to run commands on database
-* `down` — Rollback script itself (*optional*): Will be used in case migration has any error
+* `down` — Rollback script itself (*optional*): Will be used to [Rollback](#rollback) changes in case migration has any error
 
 ```javascript
 module.exports = {
@@ -125,7 +125,28 @@ migration.add(path.join(__dirname, './migrations-folder/3-step.js'));
 
 #### Multiple queries example
 
-TBD
+This framework supports multiple queries within the same migration step — developer just needs to handle local callbacks (between queries) and call framework back whenever the whole step is done.
+
+We strongly suggest you to use [async module](https://www.npmjs.com/package/async) to handle asynchronous javascript. Example of multiple queries:
+
+```javascript
+var async = require('async');
+
+module.exports = {
+    id: 'my-migration-step-with-multiple-commands',
+    
+    up : function(db, cb){
+        async.series(
+            [
+                function(_cb){db.collection('testcollection').insert({ name: 'initial-setup' }, _cb)},
+                function(_cb){db.collection('othercollection').insert({ name: 'second-setup' }, _cb)},
+                function(_cb){db.collection('othercollection').insert({ name: 'third-setup' }, _cb)}
+            ],
+            cb
+        );  
+    }
+}
+```
 
 
 ### Running migrations
