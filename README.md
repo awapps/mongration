@@ -85,32 +85,32 @@ TBD
 TBD
 
 
-## Checksum
+### Checksum
 
 TBD
 
 
-## Migration state persisted
+### Migration state persisted
 
 TBD
 
 
-## Replica set support
+### Replica set support
 
 TBD
 
 
-## Rollback
+### Rollback
 
 TBD
 
 
-## Sync and async migrations
+### Sync and async migrations
 
 TBD
 
 
-## Multiple databases migrations
+### Multiple databases migrations
 
 TBD
 
