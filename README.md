@@ -51,16 +51,15 @@ The configuration object is a straightforward javascript object that contains th
 
 ```javascript
 module.exports = {
-  hosts: 'my.host.com:27017',
-  db: 'mydb',
-  user : 'myuser',
-  password : 'mypass',
-  replicaSet : 'myreplica',
-  migrationCollection: 'migrationversion'
+   hosts: 'my.host.com:27017',
+   db: 'mydb',
+   user : 'myuser',
+   password : 'mypass',
+   migrationCollection: 'migrationversion'
 }
 ```
 
-Both **hosts** and **migrationCollection** parameters are required.
+Both **hosts** and **migrationCollection** parameters are required. Please use **user** and **password** params only when authentication is required.
 
 
 ### Creating `Migration` object
@@ -110,7 +109,16 @@ TBD
 
 ### Replica set support
 
-TBD
+As describred above, this framework supports migrations on both MongoDB standalone and replica sets versions. 
+To connect to a replica set, enter your **replicaSet** name and add the replica set **hosts** on your [Configuration](#configuration):
+
+```javascript
+module.exports = {
+   //...
+   hosts: 'my.host.com:27017,my.otherhost.com:27018,my.backuphost.com:27019',
+   replicaSet : 'myreplica',
+}
+```
 
 
 ### Rollback
