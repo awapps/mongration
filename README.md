@@ -119,7 +119,7 @@ mydbMigration.add([
 ]);
 
 // adding single
-migration.add(path.join(__dirname, './migrations-folder/3-step.js'));
+mydbMigration.add(path.join(__dirname, './migrations-folder/3-step.js'));
 ```
 
 
@@ -154,7 +154,7 @@ module.exports = {
 After adding all steps to your migration, you simply need to run it like:
 
 ```javascript
-migration.migrate(function(err, results){});
+mydbMigration.migrate(function(err, results){});
 ```
 
 The `migrate` callback function receives 2 parameters:
