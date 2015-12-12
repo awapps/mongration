@@ -20,5 +20,10 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/eberhara/mongration/issues"
+  },
+  "dependencies": {
+    "async": "~1.5.0",
+    "md5": "~2.0.0",
+    "mongodb": "~2.1.0"
   }
 }
