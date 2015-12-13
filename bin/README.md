@@ -34,3 +34,15 @@ Example:
   }
 }
 ```
+
+## How it works
+
+It will read all migration files (`-f` option), ordered by file name, and will
+execute the migrations.
+
+**Important:** when using this tool, you must specify the order by yourself (i.e, `001-first.js, 002-second.js`).
+So, a naming standard must be used to set the correct execution order.
+
+---
+
+You can always use it [../README.md](programmaticaly), to guarantee an specific order.
