@@ -16,6 +16,7 @@ It is very different from other similar projects because of:
 
 - [Installation](#installation)
 - [Usage](#usage)
+  - [CLI tool](#cli-tool)
   - [Configuration](#configuration)
   - [Creating `Migration` object](#creating-migration-object)
   - [Creating migration steps](#creating-migration-steps)
@@ -48,6 +49,11 @@ It's a simple node module, just `require` it:
 ```javascript
 var Migration = require('mongration').Migration;
 ```
+
+
+## Cli tool
+
+Read the [CLI tool docs](bin/README.md).
 
 
 ### Configuration
