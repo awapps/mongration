@@ -3,6 +3,9 @@
   "version": "0.0.3",
   "description": "",
   "main": "index.js",
+  "bin": {
+    "mongration": "./bin/mongration.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -23,7 +26,10 @@
   },
   "dependencies": {
     "async": "~1.5.0",
+    "chalk": "^1.1.1",
+    "commander": "^2.9.0",
     "md5": "~2.0.0",
-    "mongodb": "~2.1.0"
+    "mongodb": "~2.1.0",
+    "table-master": "^1.0.3"
   }
 }
