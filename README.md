@@ -72,7 +72,7 @@ Both **hosts** and **migrationCollection** parameters are required. Please use *
 
 ### Creating `Migration` object
 
-Simply `require` mongration constructor and initialize it with your [Configuration](#configuration):
+Simply `require` mongration constructor and initialize it with your [configuration](#configuration):
 
 ```javascript
 var mydbConfig = require('./config');
@@ -189,7 +189,17 @@ TBD
 
 ### Migration state persisted
 
-TBD
+The migration state is saved on the **migrationCollection** defined on [configuration](#configuration):
+```javascript
+db.migrationversion.find()
+{ "_id" : ObjectId("566ef94e6871e6211b2167f7"), "id" : "1-simple-query-sample", "checksum" : "72d9204bee94542118bd99cdde8edc0f" }
+{ "_id" : ObjectId("566ef94e6871e6211b2167fb"), "id" : "2-multi-parallel-query", "checksum" : "719dec4f301e391c16d25b819d314bbd" }
+{ "_id" : ObjectId("566ef94e6871e6211b2167ff"), "id" : "3-multi-sequential-query", "checksum" : "1181db9b787251df92fd9fb676da2d76" }
+```
+
+The framework automatically saves the following data as migration state:
+* `id` — ID defined on each migration step
+* `checksum` — Checksum of migration step file that will be used to compare as part of future migrations
 
 
 ### Replica set support
