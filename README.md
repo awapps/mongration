@@ -16,7 +16,6 @@ It is very different from other migration projects because of:
 
 **Table of Contents**  
 
-- [Installation](#installation)
 - [Programmatic Usage](#programmatic-usage)
   - [Configuration](#configuration)
   - [Creating `Migration` object](#creating-migration-object)
@@ -25,7 +24,7 @@ It is very different from other migration projects because of:
     - [Multiple queries example](#multiple-queries-example)
   - [Running migrations](#running-migrations)
     - [Migration outputs](#migration-outputs)
-- [Command line Usage (CLI tool)](#command-line-usage)
+- [Command line Usage](#command-line-usage)
 - [Included features](#included-features)
   - [Checksum](#checksum)
   - [Migration state persisted](#migration-state-persisted)
@@ -37,16 +36,15 @@ It is very different from other migration projects because of:
   
 
 
-## Installation
+
+## Programmatic Usage
+
+It's a regular node module, just `npm install` and `require` it:
+
 
 ```bash
   npm install mongration --save
 ```
-
-
-## Programmatic Usage
-
-It's a simple node module, just `require` it:
 
 ```javascript
 var Migration = require('mongration').Migration;
@@ -170,7 +168,7 @@ The `migrate` callback function receives 2 parameters:
 TBD
 
 
-## Command line Usage (CLI tool)
+## Command line Usage
 
 Read the [CLI tool docs](bin/README.md).
 
