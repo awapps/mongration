@@ -24,6 +24,12 @@ It is very different from other migration projects because of:
     - [Multiple queries example](#multiple-queries-example)
   - [Running migrations](#running-migrations)
     - [Migration outputs](#migration-outputs)
+        - [Status ok](#status-ok)
+        - [Status skipped](#status-skipped)
+        - [Status error](#status-error)
+        - [Status rollback](#status-rollback)
+        - [Status rollback-error](#status-rollback-error)
+        - [Status not-run](#status-not-run)
 - [Command line Usage](#command-line-usage)
 - [Included features](#included-features)
   - [Checksum](#checksum)
@@ -169,7 +175,17 @@ For a complete example, check [samples folder](samples/).
 
 #### Migration outputs
 
-TBD
+All migration steps will have an output so developers know how *exactly* their migrations were performed.
+
+##### Status ok
+
+##### Status skipped
+
+##### Status error
+
+##### Status rollback
+
+##### Status not-run
 
 
 ## Command line Usage
