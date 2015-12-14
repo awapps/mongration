@@ -164,6 +164,8 @@ The `migrate` callback function receives 2 parameters:
 * `err` — Error message (if the migration did not run properly)
 * `results` — A list of status for each migration step. See more on [Migration outputs](#migration-outputs).
 
+For a complete example, check [samples folder](samples/).
+
 
 #### Migration outputs
 
@@ -177,7 +179,7 @@ Read the [CLI tool docs](bin/README.md).
 
 ## Included features
 
-TBD
+This framework was built focused on solving real problems. For that, we have already included the features below.
 
 
 ### Checksum
