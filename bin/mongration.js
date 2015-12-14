@@ -10,7 +10,6 @@ require('table-master');
 var Mongration = require('../');
 
 mongration.
-    version('0.0.3').
     option('-f, --folder [value]', 'migrations folder (current dir is default)').
     option('-h, --hosts [value]', 'mongoDB hosts').
     option('-d, --database [value]', 'mongoDB database').
@@ -68,4 +67,9 @@ migration.migrate(function(err, results) {
             };
         })
     );
+
+    if(err) {
+        console.error(chalk.red(err));
+        process.exit(1);
+    }
 });
