@@ -17,8 +17,7 @@ It is very different from other similar projects because of:
 **Table of Contents**  
 
 - [Installation](#installation)
-- [Usage](#usage)
-  - [CLI tool](#cli-tool)
+- [Programmatic Usage](#programmatic-usage)
   - [Configuration](#configuration)
   - [Creating `Migration` object](#creating-migration-object)
   - [Creating migration steps](#creating-migration-steps)
@@ -26,6 +25,7 @@ It is very different from other similar projects because of:
     - [Multiple queries example](#multiple-queries-example)
   - [Running migrations](#running-migrations)
     - [Migration outputs](#migration-outputs)
+- [Command line Usage (CLI tool)](#command-line-usage)
 - [Included features](#included-features)
   - [Checksum](#checksum)
   - [Migration state persisted](#migration-state-persisted)
@@ -44,18 +44,13 @@ It is very different from other similar projects because of:
 ```
 
 
-## Usage
+## Programmatic Usage
 
 It's a simple node module, just `require` it:
 
 ```javascript
 var Migration = require('mongration').Migration;
 ```
-
-
-## Cli tool
-
-Read the [CLI tool docs](bin/README.md).
 
 
 ### Configuration
@@ -173,6 +168,11 @@ The `migrate` callback function receives 2 parameters:
 #### Migration outputs
 
 TBD
+
+
+## Command line Usage (CLI tool)
+
+Read the [CLI tool docs](bin/README.md).
 
 
 ## Included features
