@@ -28,7 +28,7 @@ if(mongration.config) {
 
 config = Object.assign({}, config, {
     hosts: mongration.hosts || config.hosts || '',
-    db: mongration.database || config.database || '',
+    db: mongration.database || config.db || '',
     user: mongration.user || config.user || '',
     password: mongration.password || config.password || '',
     migrationCollection: mongration.migrationCollection || config.migrationCollection || '',
