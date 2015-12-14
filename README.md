@@ -178,14 +178,22 @@ For a complete example, check [samples folder](samples/).
 All migration steps will have an output so developers know how *exactly* their migrations were performed.
 
 ##### Status ok
+The migration step was **successfully performed** in the database. This step is saved in the database.
 
 ##### Status skipped
+The migration step was skipped because **it was already performed** in a previous migration. This step was already saved in the database.
 
 ##### Status error
+The migration **step returned an error** and the rollback process was called. The error details are returned on `migration.migrate()` callback as described in [Running migrations](#running-migrations). This step was not saved in the database.
 
 ##### Status rollback
+Although the migration step was successfully performed, the [rollback](#rollback) process was called due to **an error in a step after this one**. This step is not saved in the database.
+
+##### Status rollback-error
+An error happened during migration process and **this step rollback process was not successfully completed**. The error details are returned on `migration.migrate()` callback as described in [Running migrations](#running-migrations). This step was not saved in the database - however database may contain unexpected data since rollback was not completely done.
 
 ##### Status not-run
+The migration step **was not processed** because an error happened before getting into this step. This step is not saved in the database.
 
 
 ## Command line Usage
