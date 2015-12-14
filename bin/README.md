@@ -10,7 +10,6 @@
   Options:
 
     -h, --help                          output usage information
-    -V, --version                       output the version number
     -f, --folder [value]                migrations folder (current dir is default)
     -h, --hosts [value]                 mongoDB hosts
     -d, --database [value]              mongoDB database
@@ -18,6 +17,22 @@
     -p, --password [value]              mongoDB password
     -m, --migration-collection [value]  collection to save migrations state
     -c, --config [value]                path to config file
+```
+
+## Using as a global package
+
+You can install it as a global package:
+
+```bash
+npm install -g mongration
+```
+
+Then, you will be able to run mongration as a command.
+
+To check the options, just type:
+
+```bash
+mongration --help
 ```
 
 ## Using as a `package.json` script
