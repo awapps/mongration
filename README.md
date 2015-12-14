@@ -249,7 +249,11 @@ module.exports = {
 
 ### Rollback
 
-TBD
+Whenever an error happens during a migration step, the rollback process is automatically called.
+The rollback process basically consists in calling `down` method of every step that was previously marked as **ok** or **error** - in other words: Skipped (previously ran steps) migration steps **are not rolled back**.
+
+Please consider that steps without `down` methods will be automatically skipped when rollback process is called.
+Please check [Migration outputs](#migration-outputs) to understand how rollback modifies steps' statuses.
 
 
 ### Sync and async migrations
