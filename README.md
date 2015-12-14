@@ -184,7 +184,14 @@ This framework was built focused on solving real problems. For that, we have alr
 
 ### Checksum
 
-TBD
+Whenever a migration step is successfully performed, the step file **checksum** is saved on the database.
+*Checksum* is the sum of all step file characters.
+
+Example:
+If migration step *1-changed-step-sample* was succesfully run, then a developer changes any part of it and try to run it again, the migration step will have **status : error ** and the exception below will be triggered:
+```javascript
+"[1-changed-step-sample] was already migrated in a different version. Current version[0685c17d538741a062c488ea776b0576] - Database version[72d9204bee94542118bd99cdde8edc0f]"
+```
 
 
 ### Migration state persisted
@@ -192,9 +199,9 @@ TBD
 The migration state is saved on the **migrationCollection** defined on [configuration](#configuration):
 ```javascript
 db.migrationversion.find()
-{ "_id" : ObjectId("566ef94e6871e6211b2167f7"), "id" : "1-simple-query-sample", "checksum" : "72d9204bee94542118bd99cdde8edc0f" }
-{ "_id" : ObjectId("566ef94e6871e6211b2167fb"), "id" : "2-multi-parallel-query", "checksum" : "719dec4f301e391c16d25b819d314bbd" }
-{ "_id" : ObjectId("566ef94e6871e6211b2167ff"), "id" : "3-multi-sequential-query", "checksum" : "1181db9b787251df92fd9fb676da2d76" }
+{ "id" : "1-simple-query-sample", "checksum" : "72d9204bee94542118bd99cdde8edc0f" }
+{ "id" : "2-multi-parallel-query", "checksum" : "719dec4f301e391c16d25b819d314bbd" }
+{ "id" : "3-multi-sequential-query", "checksum" : "1181db9b787251df92fd9fb676da2d76" }
 ```
 
 The framework automatically saves the following data as migration state:
