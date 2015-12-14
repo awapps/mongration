@@ -5,7 +5,7 @@
 [![build status](https://travis-ci.org/eberhara/mongration.svg?branch=master)](https://travis-ci.org/eberhara/mongration)
 
 This is a javascript framework that connects to a mongoDB and run the migrations following the specified order.
-It is very different from other similar projects because of: 
+It is very different from other migration projects because of: 
 * **checksum** — issues an error whenever a change on an already migrated file was changed,
 * **persists migration state** — all migrations are persisted on database,
 * **replica sets** — replica sets are fully suported,
