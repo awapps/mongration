@@ -31,6 +31,8 @@ It is very different from other migration projects because of:
   - [Replica set support](#replica-set-support)
   - [Rollback](#rollback)
   - [Sync and async migrations](#sync-and-async-migrations)
+    - [Sync migration step](#sync-migration-step)
+    - [Async migration step](#async-migration-step)
   - [Multiple databases migrations](#multiple-databases-migrations)
 - [License](#license)
   
@@ -209,12 +211,54 @@ TBD
 
 ### Sync and async migrations
 
-TBD
+Developers can run multiple queries (sync or async) as part of the same migration step.
+
+#### Sync migration step
+Please see below an example on how to run multiple **synchronous** queries as part of one migration step:
+```javascript
+var async = require('async');
+
+module.exports = {
+    id: 'sequential-query',
+
+    up : function(db, cb){
+        async.series(
+            [
+                function(cb){db.collection('testcollection').insert({ name: 'initial-sequential-setup' }, cb)},
+                function(cb){db.collection('testcollection').insert({ name: 'second-sequential-setup' }, cb)},
+                function(cb){db.collection('testcollection').insert({ name: 'third-sequential-setup' }, cb)}
+            ],
+            cb
+        );
+    }
+}
+```
+
+#### Async migration step
+Please see below an example on how to run multiple **asynchronous** queries as part of one migration step:
+```javascript
+var async = require('async');
+
+module.exports = {
+    id: 'parallel-query',
+
+    up : function(db, cb){
+        async.parallel(
+            [
+                function(cb){db.collection('testcollection').insert({ name: 'initial-parallel-setup' }, cb)},
+                function(cb){db.collection('testcollection').insert({ name: 'second-parallel-setup' }, cb)},
+                function(cb){db.collection('testcollection').insert({ name: 'third-parallel-setup' }, cb)}
+            ],
+            cb
+        );
+    }
+}
+```
 
 
 ### Multiple databases migrations
 
-TBD
+You have the ability to run migrations in more than one database at the same time. Please check the [Multi DB samples](samples/02-multi-db).
 
 
 ## License
