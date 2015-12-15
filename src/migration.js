@@ -4,7 +4,7 @@ var assert = require('assert');
 
 var async = require('async');
 
-var constants = require('./utils/constants');
+var statuses = require('./utils/constants').statuses;
 var MongoConnection = require('./utils/mongo-connection');
 var StepFileReader = require('./steps').Reader;
 
@@ -38,13 +38,13 @@ var validate = function(cb) {
                 this.steps.forEach(function(step){
                     var dbStep = results[step.id];
                     if(dbStep){
-                        step.status = constants.skipped;
+                        step.status = statuses.skipped;
                         if(dbStep.checksum != step.checksum){
-                            step.status = constants.error;
+                            step.status = statuses.error;
                             cb("[" + dbStep.id + "] was already migrated in a different version. Current version[" + step.checksum + "] - Database version[" + dbStep.checksum + "]");
                         }
                     }else{
-                        step.status = constants.pending;                
+                        step.status = statuses.pending;                
                     }
                 });
                 cb();
@@ -59,22 +59,22 @@ var rollback = function(cb, error) {
     async.series(
         reverseSteps.map(function(step){
             return function(cb){
-                if(step.status === constants.ok || step.status === constants.error){
+                if(step.status === statuses.ok || step.status === statuses.error){
                     if(step.down){
                         this.db.collection(this.collection).remove({id : step.id}, function(err){
                             if(err){
-                                step.status = constants.rollbackError;
+                                step.status = statuses.rollbackError;
                                 return cb("[" + step.id + "] failed to remove migration version: " + err);
                             }
 
                             step.down(this.db, function(err){
                                 if(err){
-                                    step.status = constants.rollbackError;
+                                    step.status = statuses.rollbackError;
                                     return cb("[" + step.id + "] unable to rollback migration: " + err);
                                 }
 
-                                if(step.status === constants.ok){
-                                    step.status = constants.rollback;
+                                if(step.status === statuses.ok){
+                                    step.status = statuses.rollback;
                                 }
                                 cb();
                             }.bind(this)
@@ -129,22 +129,22 @@ Migration.prototype.migrate = function(doneCb) {
             async.series(
                 this.steps.map(function(step){
                     return function(cb){
-                        if(step.status === constants.skipped){
-                            step.status = constants.skipped;
+                        if(step.status === statuses.skipped){
+                            step.status = statuses.skipped;
                             cb();
-                        }else if(step.status === constants.pending){
+                        }else if(step.status === statuses.pending){
                             step.up(db, function(err){
                                 if(err){
-                                    step.status = constants.error;
+                                    step.status = statuses.error;
                                     return cb("[" + step.id + "] unable to complete migration: " + err);
                                 }
 
                                 this.db.collection(this.collection).insert({id : step.id, checksum : step.checksum}, function(err){
                                     if(err){
-                                        step.status = constants.error;
+                                        step.status = statuses.error;
                                         return cb("[" + step.id + "] failed to save migration version: " + err);
                                     }
-                                    step.status = constants.ok;
+                                    step.status = statuses.ok;
                                     cb();
                                 });
                             }.bind(this));

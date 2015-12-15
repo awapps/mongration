@@ -2,7 +2,7 @@
 
 var assert = require('assert');
 
-var constants = require('../utils/constants');
+var statuses = require('../utils/constants').statuses;
 
 function Step(obj){
     assert.notEqual(obj.id, null);
@@ -12,7 +12,7 @@ function Step(obj){
     this.up = obj.up;
     this.down = obj.down;
     this.checksum = obj.checksum;
-    this.status = constants.notRun;
+    this.status = statuses.notRun;
 }
 
 module.exports = Step;
