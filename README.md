@@ -74,8 +74,10 @@ module.exports = {
 }
 ```
 
-You can either specifies connection parameters separately, or directly specify **mongoUri** with the complete connection parameters.
-If you decide to go with the splitted params, both **hosts** and **migrationCollection** parameters are required. 
+The **migrationCollection** configuration is **always required**. This is the collection name where the [migration state is persisted](#migration-state-persisted).
+
+You can either specifiy connection parameters separately, or the entire **mongoUri** with all the connection parameters.
+If you decide to go with the splitted params, **hosts** parameter is required. 
 
 *Please use **user** and **password** params only when authentication is required.*
 
