@@ -79,7 +79,7 @@ The **migrationCollection** configuration is **always required**. This is the co
 You can either specifiy connection parameters separately, or the entire **mongoUri** with all the connection parameters.
 If you decide to go with the splitted params, **hosts** parameter is required. 
 
-*Please use **user** and **password** params only when authentication is required.*
+Please use **user** and **password** params only when authentication is required.
 
 
 ### Creating `Migration` object
