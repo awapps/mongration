@@ -1,6 +1,6 @@
 {
   "name": "mongration",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Node.js mongodb migration framework",
   "main": "index.js",
   "bin": {
@@ -17,7 +17,8 @@
     "mongration",
     "mongodb",
     "migration",
-    "database"
+    "database",
+    "node mongodb migration framework"
   ],
   "author": "Eberhardt, Andre",
   "license": "MIT",

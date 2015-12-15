@@ -69,11 +69,15 @@ module.exports = {
    db: 'mydb',
    user : 'myuser',
    password : 'mypass',
+   mongoUri : 'mongodb://myuser:mypass@my.host.com:27017/mydb'
    migrationCollection: 'migrationversion'
 }
 ```
 
-Both **hosts** and **migrationCollection** parameters are required. Please use **user** and **password** params only when authentication is required.
+You can either specifies connection parameters separately, or directly specify **mongoUri** with the complete connection parameters.
+If you decide to go with the splitted params, both **hosts** and **migrationCollection** parameters are required. 
+
+*Please use **user** and **password** params only when authentication is required.*
 
 
 ### Creating `Migration` object
@@ -240,9 +244,13 @@ To connect to a replica set, enter your **replicaSet** name and add the replica 
 
 ```javascript
 module.exports = {
-   //...
-   hosts: 'my.host.com:27017,my.otherhost.com:27018,my.backuphost.com:27019',
-   replicaSet : 'myreplica',
+    //...
+    // with splitted params
+    hosts: 'my.host.com:27017,my.otherhost.com:27018,my.backuphost.com:27019',
+    replicaSet : 'myreplica',
+   
+    // or complete connection string
+    mongoUri: 'mongodb://my.host.com:27017,my.otherhost.com:27018,my.backuphost.com:27019/mydb?replicaSet=myreplica'
 }
 ```
 

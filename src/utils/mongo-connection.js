@@ -5,17 +5,22 @@ var assert = require('assert');
 var MongoClient = require('mongodb').MongoClient;
 
 function MongoConnection(config){
-    assert.notEqual(config.hosts, null);
+    
+    if(config.mongoUri){
+        this.connectionUri = config.mongoUri;
+    }else{
+        assert.notEqual(config.hosts, null);
 
-    this.hosts = config.hosts;
-    this.db = config.db;
-    this.user = config.user;
-    this.password = config.password;
-    this.replicaSet = config.replicaSet;
+        this.hosts = config.hosts;
+        this.db = config.db;
+        this.user = config.user;
+        this.password = config.password;
+        this.replicaSet = config.replicaSet;
+    }
 }
 
 MongoConnection.prototype.connect = function(cb){
-    MongoClient.connect(this.getConnectionUri(), cb);
+    MongoClient.connect(this.connectionUri || this.getConnectionUri(), cb);
 }
 
 MongoConnection.prototype.getConnectionUri = function(){
