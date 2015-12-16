@@ -3,6 +3,8 @@
 var assert = require('assert');
 
 var async = require('async');
+var fs = require('fs');
+var path = require('path');
 
 var statuses = require('./utils/constants').statuses;
 var MongoConnection = require('./utils/mongo-connection');
@@ -99,6 +101,13 @@ var rollback = function(cb, error) {
 
 Migration.prototype.add = function(fileList) {
     this.migrationFiles = this.migrationFiles.concat(fileList);
+};
+
+Migration.prototype.addAllFromPath = function(dirpath) {
+    var fileList = fs.readdirSync(dirpath);
+    fileList.map(function(file){
+        this.migrationFiles = this.migrationFiles.concat(path.join(dirpath, file));
+    }.bind(this));
 };
 
 Migration.prototype.migrate = function(doneCb) {
