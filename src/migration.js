@@ -9,6 +9,7 @@ var path = require('path');
 var statuses = require('./utils/constants').statuses;
 var MongoConnection = require('./utils/mongo-connection');
 var StepFileReader = require('./steps').Reader;
+var StepVersionCollection = require('./steps').VersionCollection;
 
 function Migration(dbConfig) {
     assert.notEqual(dbConfig.migrationCollection, null);
@@ -43,7 +44,7 @@ var validate = function(cb) {
                         step.status = statuses.skipped;
                         if(dbStep.checksum != step.checksum){
                             step.status = statuses.error;
-                            cb("[" + dbStep.id + "] was already migrated in a different version. Current version[" + step.checksum + "] - Database version[" + dbStep.checksum + "]");
+                            cb("[" + dbStep.id + "] was already migrated on [" + dbStep.date + "] in a different version. Current version[" + step.checksum + "] - Database version[" + dbStep.checksum + "]");
                         }
                     }else{
                         step.status = statuses.pending;                
@@ -148,7 +149,7 @@ Migration.prototype.migrate = function(doneCb) {
                                     return cb("[" + step.id + "] unable to complete migration: " + err);
                                 }
 
-                                this.db.collection(this.collection).insert({id : step.id, checksum : step.checksum}, function(err){
+                                this.db.collection(this.collection).insert(new StepVersionCollection(step.id, step.checksum, new Date()), function(err){
                                     if(err){
                                         step.status = statuses.error;
                                         return cb("[" + step.id + "] failed to save migration version: " + err);
