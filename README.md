@@ -229,14 +229,15 @@ If migration step *1-changed-step-sample* was succesfully run, then a developer 
 The migration state is saved on the **migrationCollection** defined on [configuration](#configuration):
 ```javascript
 db.migrationversion.find()
-{ "id" : "1-simple-query-sample", "checksum" : "72d9204bee94542118bd99cdde8edc0f" }
-{ "id" : "2-multi-parallel-query", "checksum" : "719dec4f301e391c16d25b819d314bbd" }
-{ "id" : "3-multi-sequential-query", "checksum" : "1181db9b787251df92fd9fb676da2d76" }
+{ "id" : "1-simple-query-sample", "checksum" : "a10e3030bb9683a971bae1f95b986033", "date" : ISODate("2015-12-18T14:28:38.149Z") }
+{ "id" : "2-multi-parallel-query", "checksum" : "3999fbcdf95d4c4a06e839cd0c66ede5", "date" : ISODate("2015-12-18T14:28:38.187Z") }
+{ "id" : "3-multi-sequential-query", "checksum" : "1181db9b787251df92fd9fb676da2d76","date" : ISODate("2015-12-18T14:28:38.287Z") }
 ```
 
 The framework automatically saves the following data as migration state:
 * `id` — ID defined on each migration step
 * `checksum` — Checksum of migration step file that will be used to compare as part of future migrations
+* `date` — When the migration step was processed
 
 
 ### Replica set support
