@@ -123,10 +123,11 @@ Migration.prototype.migrate = function(doneCb) {
         doneCb(err, resp);
     }.bind(this);
 
-    this.migrationFiles.forEach(function(path){
-        this.steps.push(new StepFileReader(path).read().getStep());
+    this.migrationFiles.forEach(function(path, index){
+        var _step = new StepFileReader(path).read().getStep();
+        _step.order = index;
+        this.steps.push(_step);
     }.bind(this));
-
 
     new MongoConnection(this.dbConfig).connect(function(err, db){
         assert.equal(err, null);        
@@ -149,7 +150,7 @@ Migration.prototype.migrate = function(doneCb) {
                                     return cb("[" + step.id + "] unable to complete migration: " + err);
                                 }
 
-                                this.db.collection(this.collection).insert(new StepVersionCollection(step.id, step.checksum, new Date()), function(err){
+                                this.db.collection(this.collection).insert(new StepVersionCollection(step.id, step.checksum, step.order, new Date()), function(err){
                                     if(err){
                                         step.status = statuses.error;
                                         return cb("[" + step.id + "] failed to save migration version: " + err);
