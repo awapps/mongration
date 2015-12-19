@@ -8,6 +8,7 @@ This is a javascript framework that connects to a mongoDB and run the migrations
 It is very different from other migration projects because of: 
 * **checksum** — issues an error whenever a change on an already migrated file was changed,
 * **persists migration state** — all migrations are persisted on database,
+* **migration order** — guarantees migration order
 * **replica sets** — replica sets are fully suported,
 * **rollback** — rollback process is automatically started whenever an error happens during a migration,
 * **sync / async migrations** — developers can run multiple migrations in sync or async ways,
@@ -34,6 +35,7 @@ It is very different from other migration projects because of:
 - [Included features](#included-features)
   - [Checksum](#checksum)
   - [Migration state persisted](#migration-state-persisted)
+  - [Migration Order](#migration-order)
   - [Replica set support](#replica-set-support)
   - [Rollback](#rollback)
   - [Sync and async migrations](#sync-and-async-migrations)
@@ -224,14 +226,22 @@ If migration step *1-changed-step-sample* was succesfully run, then a developer 
 ```
 
 
+### Migration Order
+
+It makes sure that previsouly ran migrations will be rerun on the same order and, if developers changed the migration order, the migration step will have **status : error ** and the exception below will be triggered:
+```javascript
+"[1-step-sample] was already migrated on [Sat Dec 19 2015 10:18:27 GMT-0200 (BRST)] in a different order. Database order[1] - Current migration on this order[1-reordered-step-sample]"
+```
+
+
 ### Migration state persisted
 
 The migration state is saved on the **migrationCollection** defined on [configuration](#configuration):
 ```javascript
 db.migrationversion.find()
-{ "id" : "1-simple-query-sample", "checksum" : "a10e3030bb9683a971bae1f95b986033", "date" : ISODate("2015-12-18T14:28:38.149Z") }
-{ "id" : "2-multi-parallel-query", "checksum" : "3999fbcdf95d4c4a06e839cd0c66ede5", "date" : ISODate("2015-12-18T14:28:38.187Z") }
-{ "id" : "3-multi-sequential-query", "checksum" : "1181db9b787251df92fd9fb676da2d76","date" : ISODate("2015-12-18T14:28:38.287Z") }
+{ "id" : "1-simple-query-sample", "checksum" : "a10e3030bb9683a971bae1f95b986033", order : "0", "date" : ISODate("2015-12-18T14:28:38.149Z") }
+{ "id" : "2-multi-parallel-query", "checksum" : "3999fbcdf95d4c4a06e839cd0c66ede5", order : "1", "date" : ISODate("2015-12-18T14:28:38.187Z") }
+{ "id" : "3-multi-sequential-query", "checksum" : "1181db9b787251df92fd9fb676da2d76", order : "2", "date" : ISODate("2015-12-18T14:28:38.287Z") }
 ```
 
 The framework automatically saves the following data as migration state:
