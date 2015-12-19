@@ -12,7 +12,7 @@ function Step(obj){
     this.up = obj.up;
     this.down = obj.down;
     this.checksum = obj.checksum;
-    this.status = statuses.notRun
+    this.status = statuses.notRun;
     this.order = obj.order;
 }
 
