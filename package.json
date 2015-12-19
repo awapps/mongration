@@ -1,6 +1,6 @@
 {
   "name": "mongration",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Node.js mongodb migration framework",
   "main": "index.js",
   "bin": {
