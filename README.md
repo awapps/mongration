@@ -1,7 +1,6 @@
-# mongration [![build status](https://travis-ci.org/eberhara/mongration.svg?branch=master)](https://travis-ci.org/eberhara/mongration) [![npm version](https://badge.fury.io/js/mongration.svg)](http://badge.fury.io/js/mongration)
+# mongration [![build status](https://travis-ci.org/eberhara/mongration.svg?branch=master)](https://travis-ci.org/eberhara/mongration) [![NPM version](http://img.shields.io/npm/v/mongration.svg)](https://www.npmjs.org/package/mongration)
 
 > A node.js migration framework for MongoDB.
-
 
 This is a javascript framework that connects to a mongoDB and run the migrations following the specified order.
 It is very different from other migration projects because of: 
