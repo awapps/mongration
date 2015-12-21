@@ -245,6 +245,7 @@ db.migrationversion.find()
 The framework automatically saves the following data as migration state:
 * `id` — ID defined on each migration step
 * `checksum` — Checksum of migration step file that will be used to compare as part of future migrations
+* `order` — Order the step was run
 * `date` — When the migration step was processed
 
 
