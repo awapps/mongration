@@ -6,6 +6,8 @@ var async = require('async');
 var fs = require('fs');
 var path = require('path');
 
+var merge = require("lodash.merge");
+
 var statuses = require('./utils/constants').statuses;
 var MongoConnection = require('./utils/mongo-connection');
 var StepFileReader = require('./steps').Reader;
@@ -91,7 +93,7 @@ var rollback = function(cb, error) {
         }.bind(this)),
         
         function(err, results){
-            this.steps = Object.assign([], this.steps, reverseSteps.reverse());
+            this.steps = merge(this.steps, reverseSteps.reverse());
             cb(err || error);
         }.bind(this)
     );
