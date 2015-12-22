@@ -3,6 +3,7 @@
 var assert = require('assert');
 var fs = require('fs');
 var md5 = require('md5');
+var merge = require("lodash.merge");
 
 var Step = require('./step');
 
@@ -23,7 +24,7 @@ StepFile.prototype.read = function(){
 
 StepFile.prototype.getStep = function(){
     var obj = require(this.path);
-    return new Step(Object.assign({}, obj, {checksum : this.checksum}));
+    return new Step(merge(obj, {checksum : this.checksum}));
 }
 
 module.exports = StepFile;

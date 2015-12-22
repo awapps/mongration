@@ -4,6 +4,7 @@ var mongration = require('commander');
 var path = require('path');
 var fs = require('fs');
 var chalk = require('chalk');
+var merge = require("lodash.merge");
 
 require('table-master');
 
@@ -25,7 +26,7 @@ if(mongration.config) {
     config = require(path.resolve(mongration.config));
 }
 
-config = Object.assign({}, config, {
+config = merge(config, {
     hosts: mongration.hosts || config.hosts || '',
     db: mongration.database || config.db || '',
     user: mongration.user || config.user || '',
