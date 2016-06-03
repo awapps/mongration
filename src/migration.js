@@ -21,6 +21,7 @@ function Migration(dbConfig) {
     this.steps = [];
     this.migrationFiles = [];
     this.collection = dbConfig.migrationCollection;
+    this.stepConfig = dbConfig.stepConfig;
 };
 
 var validate = function(cb) {
@@ -89,7 +90,7 @@ var rollback = function(cb, error) {
                 }else{
                     cb();
                 }
-            }.bind(this)
+            }.bind(this);
         }.bind(this)),
         
         function(err, results){
@@ -116,14 +117,14 @@ Migration.prototype.migrate = function(doneCb) {
             return {
                 id : step.id,
                 status : step.status
-            }
+            };
         });
         this.db.close();
         doneCb(err, resp);
     }.bind(this);
 
     this.migrationFiles.forEach(function(path, index){
-        var _step = new StepFileReader(path).read().getStep();
+        var _step = new StepFileReader(path).read().getStep(this.stepConfig);
         _step.order = index;
         this.steps.push(_step);
     }.bind(this));
@@ -159,7 +160,7 @@ Migration.prototype.migrate = function(doneCb) {
                                 });
                             }.bind(this));
                         }
-                    }.bind(this)
+                    }.bind(this);
                 }.bind(this)),
 
                 function(err){

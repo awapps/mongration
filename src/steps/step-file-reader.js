@@ -22,9 +22,9 @@ StepFile.prototype.read = function(){
     return this;
 }
 
-StepFile.prototype.getStep = function(){
+StepFile.prototype.getStep = function(stepConfig){
     var obj = require(this.path);
-    return new Step(merge(obj, {checksum : this.checksum}));
+    return new Step(merge(obj, {checksum : this.checksum, stepConfig: stepConfig}));
 }
 
 module.exports = StepFile;
