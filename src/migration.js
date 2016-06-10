@@ -14,14 +14,14 @@ var StepFileReader = require('./steps').Reader;
 var StepVersionCollection = require('./steps').VersionCollection;
 var utilities = require('./utils/utility-functions');
 
-function Migration(dbConfig) {
+function Migration(dbConfig, params) {
     assert.notEqual(dbConfig.migrationCollection, null);
 
     this.dbConfig = dbConfig;
     this.steps = [];
     this.migrationFiles = [];
     this.collection = dbConfig.migrationCollection;
-    this.stepConfig = dbConfig.stepConfig;
+    this.params = params || {};
 };
 
 var validate = function(cb) {
@@ -124,7 +124,7 @@ Migration.prototype.migrate = function(doneCb) {
     }.bind(this);
 
     this.migrationFiles.forEach(function(path, index){
-        var _step = new StepFileReader(path).read().getStep(this.stepConfig);
+        var _step = new StepFileReader(path).read().getStep(this.params.stepConfig);
         _step.order = index;
         this.steps.push(_step);
     }.bind(this));

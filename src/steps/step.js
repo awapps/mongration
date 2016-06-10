@@ -14,7 +14,7 @@ function Step(obj){
     this.checksum = obj.checksum;
     this.status = statuses.notRun;
     this.order = obj.order;
-    this.config = obj.stepConfig;
+    this.config = obj.config || {};
 }
 
 module.exports = Step;
