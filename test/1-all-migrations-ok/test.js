@@ -13,7 +13,7 @@ var filesPath = files.map(function(file) {
     return path.resolve(dir, file);
 });
 
-var should = chai.should;
+var should = chai.should();
 
 migration.add(filesPath);
 
