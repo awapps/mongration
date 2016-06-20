@@ -18,12 +18,13 @@ var should = chai.should();
 migration.add(filesPath);
 
 describe('Run migrations', function() {
-    it('Must not have errors', function() {
+    it('Must not have errors', function(done) {
         migration.migrate(function(err, result) {
             should.not.exist(err);
 
             result.should.be.an('array');
             result.length.should.equal(filesPath.length);
+            done();
         });
     });
 });
