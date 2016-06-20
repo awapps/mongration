@@ -7,7 +7,7 @@
     "mongration": "./bin/mongration.js"
   },
   "scripts": {
-    "test": "mocha --recursive"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
