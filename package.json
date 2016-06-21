@@ -7,7 +7,8 @@
     "mongration": "./bin/mongration.js"
   },
   "scripts": {
-    "test": "mocha --recursive"
+    "test": "mocha",
+    "istanbul": "istanbul cover _mocha"
   },
   "repository": {
     "type": "git",
@@ -36,6 +37,7 @@
   },
   "devDependencies": {
     "chai": "^3.4.1",
+    "istanbul": "^0.4.3",
     "mocha": "^2.3.4"
   }
 }
