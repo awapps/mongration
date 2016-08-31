@@ -1,4 +1,4 @@
-# mongration [![build status](https://travis-ci.org/eberhara/mongration.svg?branch=master)](https://travis-ci.org/eberhara/mongration) [![NPM version](http://img.shields.io/npm/v/mongration.svg)](https://www.npmjs.org/package/mongration)
+# mongration [![build status](https://travis-ci.org/awapps/mongration.svg?branch=master)](https://travis-ci.org/awapps/mongration) [![NPM version](http://img.shields.io/npm/v/mongration.svg)](https://www.npmjs.org/package/mongration)
 
 > A node.js migration framework for MongoDB.
 
