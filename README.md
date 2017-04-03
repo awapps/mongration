@@ -69,7 +69,7 @@ module.exports = {
    db: 'mydb',
    user : 'myuser',
    password : 'mypass',
-   mongoUri : 'mongodb://myuser:mypass@my.host.com:27017/mydb'
+   mongoUri : 'mongodb://myuser:mypass@my.host.com:27017/mydb',
    migrationCollection: 'migrationversion'
 }
 ```
