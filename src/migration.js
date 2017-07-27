@@ -14,9 +14,10 @@ var StepFileReader = require('./steps').Reader;
 var StepVersionCollection = require('./steps').VersionCollection;
 var utilities = require('./utils/utility-functions');
 
-function Migration(dbConfig) {
+function Migration(dbConfig, options) {
     assert.notEqual(dbConfig.migrationCollection, null);
 
+    this.options = options;
     this.dbConfig = dbConfig;
     this.steps = [];
     this.migrationFiles = [];
@@ -128,7 +129,7 @@ Migration.prototype.migrate = function(doneCb) {
         this.steps.push(_step);
     }.bind(this));
 
-    new MongoConnection(this.dbConfig).connect(function(err, db){
+    new MongoConnection(this.dbConfig, this.options).connect(function(err, db){
         assert.equal(err, null);        
         this.db = db;
 
