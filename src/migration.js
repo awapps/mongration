@@ -33,7 +33,7 @@ var validate = function(cb) {
 
             docs.forEach(function(dbStep, index){
                 if(this.steps[index]){
-                    this.steps[index].status = statuses.skipped;   
+                    this.steps[index].status = statuses.skipped;
 
                     if(!_steps[dbStep.id] || (dbStep.order && dbStep.order != _steps[dbStep.id].order)){
                         this.steps[index].status = statuses.error;
@@ -92,7 +92,7 @@ var rollback = function(cb, error) {
                 }
             }.bind(this)
         }.bind(this)),
-        
+
         function(err, results){
             this.steps = merge(this.steps, reverseSteps.reverse());
             cb(err || error);
@@ -130,9 +130,10 @@ Migration.prototype.migrate = function(doneCb) {
     }.bind(this));
 
     new MongoConnection(this.dbConfig, this.options).connect(function(err, db){
-        var runMigrations = function() {
-          console.log('migrate.runMigrations:', JSON.stringify(err))
-          assert.equal(err, null);
+      console.log('migrate.runMigrations:', JSON.stringify(err))
+      assert.equal(err, null);
+
+        var runMigrations = function(db) {
           this.db = db;
 
           validate.call(this, function(err){
@@ -183,10 +184,10 @@ Migration.prototype.migrate = function(doneCb) {
               //TODO: handle error
                 console.log('adminDb.authenticate:', JSON.stringify(err))
               }
-            runMigrations()
+            runMigrations(db)
           })
         }else {
-          runMigrations();
+          runMigrations(db);
         }
     }.bind(this));
 };

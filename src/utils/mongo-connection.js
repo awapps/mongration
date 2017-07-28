@@ -21,7 +21,7 @@ function MongoConnection(config, options){
 }
 
 MongoConnection.prototype.connect = function(cb){
-    MongoClient.connect(this.connectionUri || this.getConnectionUri(), this.options || {}, cb);
+    MongoClient.connect(this.connectionUri || this.getConnectionUri(), this.options || null, cb);
 }
 
 MongoConnection.prototype.getConnectionUri = function(){
