@@ -176,8 +176,7 @@ Migration.prototype.migrate = function(doneCb) {
         }
 
         if(this.options.pass || this.options.user) {
-          var adminDb = db.admin();
-          adminDb.authenticate(this.options.user, this.options.pass, function(err) {
+          db.authenticate(this.options.user, this.options.pass, function(err) {
               if(err) {
               //TODO: handle error
                 console.log(err)
