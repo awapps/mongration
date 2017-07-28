@@ -130,10 +130,10 @@ Migration.prototype.migrate = function(doneCb) {
     }.bind(this));
 
     new MongoConnection(this.dbConfig, this.options).connect(function(err, db){
-      console.log('migrate.runMigrations:', JSON.stringify(err))
+      console.log('migrate.runMigrations:', JSON.stringify(err));
       assert.equal(err, null);
 
-        var runMigrations = function(db) {
+        var runMigrations = function() {
           this.db = db;
 
           validate.call(this, function(err){
@@ -175,7 +175,7 @@ Migration.prototype.migrate = function(doneCb) {
                 }.bind(this)
             );
           }.bind(this));
-        }
+        }.bind(this);
 
         if(this.options.pass || this.options.user) {
           var adminDb = db.admin();
@@ -184,10 +184,10 @@ Migration.prototype.migrate = function(doneCb) {
               //TODO: handle error
                 console.log('adminDb.authenticate:', JSON.stringify(err))
               }
-            runMigrations(db)
+            runMigrations()
           })
         }else {
-          runMigrations(db);
+          runMigrations();
         }
     }.bind(this));
 };
