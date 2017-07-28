@@ -131,6 +131,7 @@ Migration.prototype.migrate = function(doneCb) {
 
     new MongoConnection(this.dbConfig, this.options).connect(function(err, db){
         var runMigrations = function() {
+          console.log('migrate.runMigrations:', JSON.stringify(err))
           assert.equal(err, null);
           this.db = db;
 
@@ -176,10 +177,11 @@ Migration.prototype.migrate = function(doneCb) {
         }
 
         if(this.options.pass || this.options.user) {
-          db.authenticate(this.options.user, this.options.pass, function(err) {
+          var adminDb = db.admin();
+          adminDb.authenticate(this.options.user, this.options.pass, function(err) {
               if(err) {
               //TODO: handle error
-                console.log(err)
+                console.log('adminDb.authenticate:', JSON.stringify(err))
               }
             runMigrations()
           })
