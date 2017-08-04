@@ -23,7 +23,7 @@ function MongoConnection(config, options){
 MongoConnection.prototype.connect = function(cb){
   MongoClient.connect(this.connectionUri || this.getConnectionUri(), this.options || null,
       function(err, db) {
-        if(this.options.pass || this.options.user) {
+        if(this.options && this.options.pass && this.options.user) {
           db.authenticate(this.options.user, this.options.pass, function(err) {
             if(err) {
               return cb(err);
