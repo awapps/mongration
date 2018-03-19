@@ -17,6 +17,10 @@ function StepFile(path){
 
 StepFile.prototype.read = function(){
     this.content = fs.readFileSync(this.path, {encoding : 'utf8'});
+    
+    // Remove carriage return to prevent different hash on Windows
+    this.content = this.content.replace(/[\r]/g, '');
+
     this.checksum = md5(this.content);
 
     return this;
