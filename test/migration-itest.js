@@ -151,12 +151,34 @@ describe('Mongration.Migration', function() {
             migration2.add(files[1]); // "edited": same id, different content
 
             migration2.migrate(function(err, result) {
-                console.log(err,result);
                 should.not.exist(err);
                 result.should.be.an('array');
                 result.should.have.lengthOf(1);
                 result.should.have.deep.property('[0].id', '1');
                 result.should.have.deep.property('[0].status', 'skipped');
+                done();
+            });
+        });
+    });
+
+    it('does rollback if order changed', function(done) {
+        var migration = new Migration(config);
+        var files = getFiles('migrations/migration-order');
+        migration.add(files[1]);
+
+        migration.migrate(function(err, result) {
+            should.not.exist(err);
+            var migration2 = new Migration(config);
+            migration2.add([files[0], files[1]]);
+
+            migration2.migrate(function(err, result) {
+                err.should.match(/already migrated(.*)in a different order/)
+                result.should.be.an('array');
+                result.should.have.lengthOf(2);
+                result.should.have.deep.property('[0].id', '1');
+                result.should.have.deep.property('[0].status', 'not-run');
+                result.should.have.deep.property('[1].id', '2');
+                result.should.have.deep.property('[1].status', 'error');
                 done();
             });
         });
@@ -172,11 +194,12 @@ describe('Mongration.Migration', function() {
             migration2.add([files[0], files[1]]);
 
             migration2.migrate(function(err, result) {
-                console.log(err, result);
                 should.not.exist(err);
                 result.should.be.an('array');
                 result.should.have.lengthOf(2);
-                result.should.have.deep.property('[1].id', '1');
+                result.should.have.deep.property('[0].id', '1');
+                result.should.have.deep.property('[1].id', '2');
+                result.should.have.deep.property('[0].status', 'ok');
                 result.should.have.deep.property('[1].status', 'skipped');
                 done();
             });
