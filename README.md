@@ -93,6 +93,15 @@ var Migration = require('mongration').Migration;
 var mydbMigration = new Migration(mydbConfig);
 ```
 
+Mongration accepts an additional `options` object which allows you to adjust the behavior. In essence you can opt out core security features.
+```
+var options = {
+    ignoreChecksum: true
+    ignoreOrder: true
+};
+```
+:bomb: You shouldn't use these flags in production, but they may come in handy while in development.
+
 
 ### Creating migration steps
 
