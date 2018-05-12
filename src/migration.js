@@ -7,6 +7,7 @@ var fs = require('fs');
 var path = require('path');
 
 var merge = require("lodash.merge");
+var findIndex = require("lodash.findindex");
 
 var statuses = require('./utils/constants').statuses;
 var MongoConnection = require('./utils/mongo-connection');
@@ -31,7 +32,7 @@ var validate = function(cb) {
             assert.equal(err, null);
             var _steps = utilities.arrayToObject(this.steps, 'id');
             docs.forEach(function(dbStep){
-                var index = this.steps.findIndex(function(step){return step.id === dbStep.id});
+                var index = findIndex(this.steps, function(step){return step.id === dbStep.id});
                 if(this.steps[index]){
                     this.steps[index].status = statuses.skipped;
                     if(!_steps[dbStep.id] || (dbStep.order !== undefined && dbStep.order != _steps[dbStep.id].order)){
