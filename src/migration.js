@@ -7,6 +7,7 @@ var fs = require('fs');
 var path = require('path');
 
 var merge = require("lodash.merge");
+var findIndex = require("lodash.findindex");
 
 var statuses = require('./utils/constants').statuses;
 var MongoConnection = require('./utils/mongo-connection');
@@ -14,13 +15,14 @@ var StepFileReader = require('./steps').Reader;
 var StepVersionCollection = require('./steps').VersionCollection;
 var utilities = require('./utils/utility-functions');
 
-function Migration(dbConfig) {
+function Migration(dbConfig, options) {
     assert.notEqual(dbConfig.migrationCollection, null);
 
     this.dbConfig = dbConfig;
     this.steps = [];
     this.migrationFiles = [];
     this.collection = dbConfig.migrationCollection;
+    this.options = options || {};
 };
 
 var validate = function(cb) {
@@ -29,15 +31,16 @@ var validate = function(cb) {
         this.db.collection(this.collection).find({}, {}, {order : 1}).toArray(function(err, docs){
             assert.equal(err, null);
             var _steps = utilities.arrayToObject(this.steps, 'id');
-
-            docs.forEach(function(dbStep, index){
+            docs.forEach(function(dbStep){
+                var index = findIndex(this.steps, function(step){return step.id === dbStep.id});
                 if(this.steps[index]){
-                    this.steps[index].status = statuses.skipped;   
-
-                    if(!_steps[dbStep.id] || (dbStep.order && dbStep.order != _steps[dbStep.id].order)){
+                    this.steps[index].status = statuses.skipped;
+                    if(!_steps[dbStep.id] || (dbStep.order !== undefined && dbStep.order != _steps[dbStep.id].order)){
+                        if(this.options.ignoreOrder) return;
                         this.steps[index].status = statuses.error;
                         cb("[" + dbStep.id + "] was already migrated on [" + dbStep.date + "] in a different order. Database order[" + dbStep.order + "] - Current migration on this order[" + this.steps[index].id + "]");
-                    }else if(dbStep.checksum != this.steps[index].checksum){
+                    }else if(dbStep.checksum != _steps[dbStep.id].checksum){
+                        if(this.options.ignoreChecksum) return;
                         this.steps[index].status = statuses.error;
                         cb("[" + dbStep.id + "] was already migrated on [" + dbStep.date + "] in a different version. Database version[" + dbStep.checksum + "] - Current version[" + this.steps[index].checksum + "]");
                     }

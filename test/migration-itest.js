@@ -141,9 +141,70 @@ describe('Mongration.Migration', function() {
         });
     });
 
-    // TODO: add test...
-    // dunno how to trigger error "already migrated in a different order"
-    it('does rollback if wrong order');
+    it('does skip if checksum changed', function(done) {
+        var migration = new Migration(config);
+        var files = getFiles('migrations/rejects-if-edited');
+        migration.add(files[0]);
+        migration.migrate(function(err, result) {
+            should.not.exist(err);
+            var migration2 = new Migration(config, {ignoreChecksum: true});
+            migration2.add(files[1]); // "edited": same id, different content
+
+            migration2.migrate(function(err, result) {
+                should.not.exist(err);
+                result.should.be.an('array');
+                result.should.have.lengthOf(1);
+                result.should.have.deep.property('[0].id', '1');
+                result.should.have.deep.property('[0].status', 'skipped');
+                done();
+            });
+        });
+    });
+
+    it('does rollback if order changed', function(done) {
+        var migration = new Migration(config);
+        var files = getFiles('migrations/migration-order');
+        migration.add(files[1]);
+
+        migration.migrate(function(err, result) {
+            should.not.exist(err);
+            var migration2 = new Migration(config);
+            migration2.add([files[0], files[1]]);
+
+            migration2.migrate(function(err, result) {
+                err.should.match(/already migrated(.*)in a different order/)
+                result.should.be.an('array');
+                result.should.have.lengthOf(2);
+                result.should.have.deep.property('[0].id', '1');
+                result.should.have.deep.property('[0].status', 'not-run');
+                result.should.have.deep.property('[1].id', '2');
+                result.should.have.deep.property('[1].status', 'error');
+                done();
+            });
+        });
+    });
+
+    it('does skip if order changed', function(done) {
+        var migration = new Migration(config);
+        var files = getFiles('migrations/migration-order');
+        migration.add(files[1]);
+        migration.migrate(function(err, result) {
+            should.not.exist(err);
+            var migration2 = new Migration(config, {ignoreOrder: true});
+            migration2.add([files[0], files[1]]);
+
+            migration2.migrate(function(err, result) {
+                should.not.exist(err);
+                result.should.be.an('array');
+                result.should.have.lengthOf(2);
+                result.should.have.deep.property('[0].id', '1');
+                result.should.have.deep.property('[1].id', '2');
+                result.should.have.deep.property('[0].status', 'ok');
+                result.should.have.deep.property('[1].status', 'skipped');
+                done();
+            });
+        });
+    });
 
 
 });
