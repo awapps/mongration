@@ -26,7 +26,7 @@ function Migration(dbConfig) {
 var validate = function(cb) {
     if(this.db){
 
-        this.db.collection(this.collection).find({}, {}, {order : 1}).toArray(function(err, docs){
+        this.db.collection(this.collection).find({}, {}).sort({order : 1}).toArray(function(err, docs){
             assert.equal(err, null);
             var _steps = utilities.arrayToObject(this.steps, 'id');
 
