@@ -6,7 +6,7 @@ var fs = require('fs');
 var chalk = require('chalk');
 var merge = require("lodash/merge");
 
-require('table-master');
+require('console.table');
 
 var Mongration = require('../');
 
