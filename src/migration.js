@@ -14,9 +14,10 @@ var StepFileReader = require('./steps').Reader;
 var StepVersionCollection = require('./steps').VersionCollection;
 var utilities = require('./utils/utility-functions');
 
-function Migration(dbConfig) {
+function Migration(dbConfig, options) {
     assert.notEqual(dbConfig.migrationCollection, null);
 
+    this.options = options;
     this.dbConfig = dbConfig;
     this.steps = [];
     this.migrationFiles = [];
@@ -32,7 +33,7 @@ var validate = function(cb) {
 
             docs.forEach(function(dbStep, index){
                 if(this.steps[index]){
-                    this.steps[index].status = statuses.skipped;   
+                    this.steps[index].status = statuses.skipped;
 
                     if(!_steps[dbStep.id] || (dbStep.order && dbStep.order != _steps[dbStep.id].order)){
                         this.steps[index].status = statuses.error;
@@ -91,7 +92,7 @@ var rollback = function(cb, error) {
                 }
             }.bind(this)
         }.bind(this)),
-        
+
         function(err, results){
             this.steps = merge(this.steps, reverseSteps.reverse());
             cb(err || error);
@@ -128,49 +129,48 @@ Migration.prototype.migrate = function(doneCb) {
         this.steps.push(_step);
     }.bind(this));
 
-    new MongoConnection(this.dbConfig).connect(function(err, db){
-        assert.equal(err, null);        
-        this.db = db;
-
-        validate.call(this, function(err){
+    new MongoConnection(this.dbConfig, this.options).connect(function(err, db){
+          assert.equal(err, null);
+          this.db = db;
+          validate.call(this, function(err){
             if(err){
-                return callback(err);
+              return callback(err);
             }
             async.series(
                 this.steps.map(function(step){
-                    return function(cb){
-                        if(step.status === statuses.skipped){
-                            step.status = statuses.skipped;
-                            cb();
-                        }else if(step.status === statuses.pending){
-                            step.up(db, function(err){
-                                if(err){
-                                    step.status = statuses.error;
-                                    return cb("[" + step.id + "] unable to complete migration: " + err);
-                                }
-
-                                this.db.collection(this.collection).insert(new StepVersionCollection(step.id, step.checksum, step.order, new Date()), function(err){
-                                    if(err){
-                                        step.status = statuses.error;
-                                        return cb("[" + step.id + "] failed to save migration version: " + err);
-                                    }
-                                    step.status = statuses.ok;
-                                    cb();
-                                });
-                            }.bind(this));
+                  return function(cb){
+                    if(step.status === statuses.skipped){
+                      step.status = statuses.skipped;
+                      cb();
+                    }else if(step.status === statuses.pending){
+                      step.up(db, function(err){
+                        if(err){
+                          step.status = statuses.error;
+                          return cb("[" + step.id + "] unable to complete migration: " + err);
                         }
-                    }.bind(this)
+
+                        this.db.collection(this.collection).insert(new StepVersionCollection(step.id, step.checksum, step.order, new Date()), function(err){
+                          if(err){
+                            step.status = statuses.error;
+                            return cb("[" + step.id + "] failed to save migration version: " + err);
+                          }
+                          step.status = statuses.ok;
+                          cb();
+                        });
+                      }.bind(this));
+                    }
+                  }.bind(this)
                 }.bind(this)),
 
                 function(err){
-                    if(err){
-                        rollback.call(this, callback, err);
-                    }else{
-                        callback();
-                    }
+                  if(err){
+                    rollback.call(this, callback, err);
+                  }else{
+                    callback();
+                  }
                 }.bind(this)
             );
-        }.bind(this));
+          }.bind(this));
     }.bind(this));
 };
 

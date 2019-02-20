@@ -4,8 +4,9 @@ var assert = require('assert');
 
 var MongoClient = require('mongodb').MongoClient;
 
-function MongoConnection(config){
-    
+function MongoConnection(config, options){
+    this.options = options;
+
     if(config.mongoUri){
         this.connectionUri = config.mongoUri;
     }else{
@@ -20,7 +21,18 @@ function MongoConnection(config){
 }
 
 MongoConnection.prototype.connect = function(cb){
-    MongoClient.connect(this.connectionUri || this.getConnectionUri(), cb);
+  MongoClient.connect(this.connectionUri || this.getConnectionUri(), this.options || null,
+      function(err, db) {
+        if(this.options && this.options.pass && this.options.user) {
+          db.authenticate(this.options.user, this.options.pass, function(err) {
+            if(err) {
+              return cb(err);
+            }
+          })
+        }
+
+        return cb(err, db);
+      }.bind(this));
 }
 
 MongoConnection.prototype.getConnectionUri = function(){
