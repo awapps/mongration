@@ -135,6 +135,27 @@ describe('Mongration.Migration', function() {
         });
     });
 
+    it('does ignore checksum if disabled', function (done) {
+        var migration = new Migration(config);
+        var files = getFiles('migrations/rejects-if-edited');
+        migration.add(files[0]);
+
+        migration.migrate(function (err, result) {
+            should.not.exist(err);
+            var migration2 = new Migration(config);
+            migration2.add(files[1]); // "edited": same id, different content
+            migration2.disableChecksumComparison();
+
+            migration2.migrate(function (err, result) {
+                should.not.exist(err);
+                result.should.be.an('array');
+                result.should.have.lengthOf(1);
+                result[0].should.deep.equal({ id: '1', status: 'skipped' });
+                done();
+            });
+        });
+    });
+
     // TODO: add test...
     // dunno how to trigger error "already migrated in a different order"
     it('does rollback if wrong order');
