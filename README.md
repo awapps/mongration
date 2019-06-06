@@ -223,6 +223,11 @@ If migration step *1-changed-step-sample* was succesfully run, then a developer 
 "[1-changed-step-sample] was already migrated in a different version. Current version[0685c17d538741a062c488ea776b0576] - Database version[72d9204bee94542118bd99cdde8edc0f]"
 ```
 
+If there is no way to avoid changes in already executed step files, the *checksum* comparison can be disabled:
+```javascript
+mydbMigration.disableChecksumComparison();
+```
+
 
 ### Migration Order
 

@@ -21,6 +21,7 @@ function Migration(dbConfig) {
     this.steps = [];
     this.migrationFiles = [];
     this.collection = dbConfig.migrationCollection;
+    this.compareChecksums = true;
 };
 
 var validate = function(cb) {
@@ -37,7 +38,7 @@ var validate = function(cb) {
                     if(!_steps[dbStep.id] || (dbStep.order && dbStep.order != _steps[dbStep.id].order)){
                         this.steps[index].status = statuses.error;
                         cb("[" + dbStep.id + "] was already migrated on [" + dbStep.date + "] in a different order. Database order[" + dbStep.order + "] - Current migration on this order[" + this.steps[index].id + "]");
-                    }else if(dbStep.checksum != this.steps[index].checksum){
+                    }else if(this.compareChecksums && dbStep.checksum != this.steps[index].checksum){
                         this.steps[index].status = statuses.error;
                         cb("[" + dbStep.id + "] was already migrated on [" + dbStep.date + "] in a different version. Database version[" + dbStep.checksum + "] - Current version[" + this.steps[index].checksum + "]");
                     }
@@ -108,6 +109,14 @@ Migration.prototype.addAllFromPath = function(dirpath) {
     fileList.map(function(file){
         this.migrationFiles = this.migrationFiles.concat(path.join(dirpath, file));
     }.bind(this));
+};
+
+Migration.prototype.disableChecksumComparison = function () {
+    this.compareChecksums = false;
+};
+
+Migration.prototype.enableChecksumComparison = function () {
+    this.compareChecksums = true;
 };
 
 Migration.prototype.migrate = function(doneCb) {
