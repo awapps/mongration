@@ -37,10 +37,11 @@ var validate = function(cb) {
                     if(!_steps[dbStep.id] || (dbStep.order && dbStep.order != _steps[dbStep.id].order)){
                         this.steps[index].status = statuses.error;
                         cb("[" + dbStep.id + "] was already migrated on [" + dbStep.date + "] in a different order. Database order[" + dbStep.order + "] - Current migration on this order[" + this.steps[index].id + "]");
-                    }else if(dbStep.checksum != this.steps[index].checksum){
-                        this.steps[index].status = statuses.error;
-                        cb("[" + dbStep.id + "] was already migrated on [" + dbStep.date + "] in a different version. Database version[" + dbStep.checksum + "] - Current version[" + this.steps[index].checksum + "]");
                     }
+//                     else if(dbStep.checksum != this.steps[index].checksum){
+//                         this.steps[index].status = statuses.error;
+//                         cb("[" + dbStep.id + "] was already migrated on [" + dbStep.date + "] in a different version. Database version[" + dbStep.checksum + "] - Current version[" + this.steps[index].checksum + "]");
+//                     }
                 }
             }.bind(this));
 

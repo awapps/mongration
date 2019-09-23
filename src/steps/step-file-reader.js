@@ -17,6 +17,7 @@ function StepFile(path){
 
 StepFile.prototype.read = function(){
     this.content = fs.readFileSync(this.path, {encoding : 'utf8'});
+    this.content = this.content.replace(/[\r]/g, '');
     this.checksum = md5(this.content);
 
     return this;
