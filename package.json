@@ -27,7 +27,7 @@
     "url": "https://github.com/awapps/mongration/issues"
   },
   "dependencies": {
-    "async": "~2.6.0",
+    "async": "~3.2.2",
     "chalk": "^2.4.1",
     "commander": "^2.9.0",
     "console.table": "^0.10.0",
