@@ -32,7 +32,7 @@ MongoConnection.prototype.connect = async function(cb){
 }
 
 MongoConnection.prototype.getConnectionUri = function(){
-    var uri = 'mongodb://';
+    var uri = 'mongodb+srv://';
 
     if(this.user){
         uri += this.user;

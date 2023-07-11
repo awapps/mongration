@@ -44,19 +44,19 @@ describe('utils/mongo-connection', function () {
                 expect(new MongoConn({
                         hosts: '1'
                     }).getConnectionUri())
-                    .to.equal('mongodb://1/');
+                    .to.equal('mongodb+srv://1/');
 
                 expect(new MongoConn({
                         hosts: '1', db:'2', user: '3',
                         password:'4'
                     }).getConnectionUri())
-                    .to.equal('mongodb://3:4@1/2')
+                    .to.equal('mongodb+srv://3:4@1/2')
 
                 expect(new MongoConn({
                         hosts: '1', db:'2', user: '3',
                         password:'4', replicaSet: '5'
                     }).getConnectionUri())
-                    .to.equal('mongodb://3:4@1/2?replicaSet=5')
+                    .to.equal('mongodb+srv://3:4@1/2?replicaSet=5')
 
             })
         })
