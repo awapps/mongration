@@ -19,8 +19,16 @@ function MongoConnection(config){
     }
 }
 
-MongoConnection.prototype.connect = function(cb){
-    MongoClient.connect(this.connectionUri || this.getConnectionUri(), cb);
+MongoConnection.prototype.connect = async function(cb){
+
+    var client = new MongoClient(this.connectionUri || this.getConnectionUri());
+
+    try {
+        await client.connect();
+        cb(null, client);
+    } catch (e) {
+        cb(e);
+    }
 }
 
 MongoConnection.prototype.getConnectionUri = function(){

@@ -26,7 +26,7 @@ function Migration(dbConfig) {
 var validate = function(cb) {
     if(this.db){
 
-        this.db.collection(this.collection).find({}, {}, {order : 1}).toArray(function(err, docs){
+        this.db.collection(this.collection).find({}, {order : 1}).toArray(function(err, docs){
             assert.equal(err, null);
             var _steps = utilities.arrayToObject(this.steps, 'id');
 
@@ -63,7 +63,7 @@ var rollback = function(cb, error) {
             return function(cb){
                 if(step.status === statuses.ok || step.status === statuses.error){
                     if(step.down){
-                        this.db.collection(this.collection).remove({id : step.id}, function(err){
+                        this.db.collection(this.collection).deleteOne({id : step.id}, function(err){
                             if(err){
                                 step.status = statuses.rollbackError;
                                 return cb("[" + step.id + "] failed to remove migration version: " + err);
@@ -118,7 +118,7 @@ Migration.prototype.migrate = function(doneCb) {
                 status : step.status
             }
         });
-        this.db.close();
+        this.client.close();
         doneCb(err, resp);
     }.bind(this);
 
@@ -128,9 +128,10 @@ Migration.prototype.migrate = function(doneCb) {
         this.steps.push(_step);
     }.bind(this));
 
-    new MongoConnection(this.dbConfig).connect(function(err, db){
+    new MongoConnection(this.dbConfig).connect(function(err, client){
         assert.equal(err, null);        
-        this.db = db;
+        this.client = client;
+        this.db = client.db(client.s.options.dbName);
 
         validate.call(this, function(err){
             if(err){
@@ -143,13 +144,13 @@ Migration.prototype.migrate = function(doneCb) {
                             step.status = statuses.skipped;
                             cb();
                         }else if(step.status === statuses.pending){
-                            step.up(db, function(err){
+                            step.up(client, function(err){
                                 if(err){
                                     step.status = statuses.error;
                                     return cb("[" + step.id + "] unable to complete migration: " + err);
                                 }
 
-                                this.db.collection(this.collection).insert(new StepVersionCollection(step.id, step.checksum, step.order, new Date()), function(err){
+                                this.db.collection(this.collection).insertOne(new StepVersionCollection(step.id, step.checksum, step.order, new Date()), function(err){
                                     if(err){
                                         step.status = statuses.error;
                                         return cb("[" + step.id + "] failed to save migration version: " + err);

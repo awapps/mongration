@@ -32,7 +32,7 @@
     "commander": "^2.9.0",
     "lodash.merge": "^3.3.2",
     "md5": "~2.0.0",
-    "mongodb": "~2.1.0",
+    "mongodb": "^4.14.0",
     "table-master": "^1.0.3"
   },
   "devDependencies": {

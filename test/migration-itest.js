@@ -23,22 +23,22 @@ describe('Mongration.Migration', function() {
     this.timeout(5000);
     this.slow(2000);
 
-    var db;
+    var client;
 
     beforeEach(function (done) {
         // clean db for each test
-        new MongoConn(config).connect(function (err, _db) {
+        new MongoConn(config).connect(function (err, _client) {
             should.not.exist(err);
-            _db.dropDatabase(function (err, result) {
+            _client.db(_client.s.options.dbName).dropDatabase(function (err, result) {
                 should.not.exist(err);
-                db = _db
+                client = _client
                 done();
             });
         })
     });
 
     afterEach(function (done) {
-        db.close(done);
+        client.close(done);
     });
 
     it('runs migration', function(done) {
