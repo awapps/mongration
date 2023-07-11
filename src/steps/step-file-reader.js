@@ -3,7 +3,7 @@
 var assert = require('assert');
 var fs = require('fs');
 var md5 = require('md5');
-var merge = require("lodash.merge");
+var merge = require("lodash/merge");
 
 var Step = require('./step');
 

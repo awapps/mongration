@@ -49,8 +49,7 @@ describe('Mongration.Migration', function() {
             should.not.exist(err);
             result.should.be.an('array');
             result.should.have.lengthOf(1);
-            result.should.have.deep.property('[0].id', '1');
-            result.should.have.deep.property('[0].status', 'ok');
+            result[0].should.deep.equal({id: '1', status: 'ok'});
             done();
         });
     });
@@ -68,8 +67,7 @@ describe('Mongration.Migration', function() {
                 should.not.exist(err);
                 result.should.be.an('array');
                 result.should.have.lengthOf(1);
-                result.should.have.deep.property('[0].id', '1');
-                result.should.have.deep.property('[0].status', 'skipped');
+                result[0].should.deep.equal({id: '1', status: 'skipped'});
                 done();
             });
         });
@@ -84,8 +82,7 @@ describe('Mongration.Migration', function() {
             err.should.match(/unable to complete migration:/);
             result.should.be.an('array');
             result.should.have.lengthOf(1);
-            result.should.have.deep.property('[0].id', '1');
-            result.should.have.deep.property('[0].status', 'error');
+            result[0].should.deep.equal({id: '1', status: 'error'});
             done();
         });
     });
@@ -99,8 +96,7 @@ describe('Mongration.Migration', function() {
             err.should.match(/unable to rollback migration:/);
             result.should.be.an('array');
             result.should.have.lengthOf(1);
-            result.should.have.deep.property('[0].id', '1');
-            result.should.have.deep.property('[0].status', 'rollback-error');
+            result[0].should.deep.equal({id: '1', status: 'rollback-error'});
             done();
         });
     });
@@ -114,8 +110,7 @@ describe('Mongration.Migration', function() {
             err.should.match(/unable to complete migration:/);
             result.should.be.an('array');
             result.should.have.lengthOf(1);
-            result.should.have.deep.property('[0].id', '1');
-            result.should.have.deep.property('[0].status', 'error');
+            result[0].should.deep.equal({id: '1', status: 'error'});
             done();
         });
     });
@@ -134,8 +129,7 @@ describe('Mongration.Migration', function() {
                 err.should.match(/already migrated(.*)in a different version/)
                 result.should.be.an('array');
                 result.should.have.lengthOf(1);
-                result.should.have.deep.property('[0].id', '1');
-                result.should.have.deep.property('[0].status', 'error');
+                result[0].should.deep.equal({id: '1', status: 'error'});
                 done();
             });
         });

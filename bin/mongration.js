@@ -4,9 +4,9 @@ var mongration = require('commander');
 var path = require('path');
 var fs = require('fs');
 var chalk = require('chalk');
-var merge = require("lodash.merge");
+var merge = require("lodash/merge");
 
-require('table-master');
+require('console.table');
 
 var Mongration = require('../');
 

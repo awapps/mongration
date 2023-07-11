@@ -6,7 +6,7 @@ var async = require('async');
 var fs = require('fs');
 var path = require('path');
 
-var merge = require("lodash.merge");
+var merge = require("lodash/merge");
 
 var statuses = require('./utils/constants').statuses;
 var MongoConnection = require('./utils/mongo-connection');
@@ -26,7 +26,7 @@ function Migration(dbConfig) {
 var validate = function(cb) {
     if(this.db){
 
-        this.db.collection(this.collection).find({}, {order : 1}).toArray(function(err, docs){
+        this.db.collection(this.collection).find({}, {}).sort({order : 1}).toArray(function(err, docs){
             assert.equal(err, null);
             var _steps = utilities.arrayToObject(this.steps, 'id');
 
