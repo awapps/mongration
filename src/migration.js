@@ -144,7 +144,7 @@ Migration.prototype.migrate = function(doneCb) {
                             step.status = statuses.skipped;
                             cb();
                         }else if(step.status === statuses.pending){
-                            step.up(client, function(err){
+                            step.up(this.db, function(err){
                                 if(err){
                                     step.status = statuses.error;
                                     return cb("[" + step.id + "] unable to complete migration: " + err);
