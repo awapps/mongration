@@ -98,6 +98,7 @@ var rollback = function(cb, error) {
         }.bind(this)),
         
         function(err, results){
+            console.log('----- &&&&& rollback', err, error, results, 't', null || error)
             this.steps = merge(this.steps, reverseSteps.reverse());
             cb(err || error);
         }.bind(this)
@@ -125,8 +126,8 @@ Migration.prototype.migrate = function(doneCb) {
         });
         this.client
           .close()
-          .then(() => doneCb(null, resp))
-          .catch((err) => doneCb(err, resp));
+          .then(() => doneCb(err, resp))
+          .catch(() => doneCb(err, resp));
     }.bind(this);
     console.log('!!!!!!!!!!!!')
     this.migrationFiles.forEach(function(path, index){
