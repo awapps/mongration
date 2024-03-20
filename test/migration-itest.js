@@ -53,7 +53,6 @@ describe('Mongration.Migration', function() {
         migration.add(getFiles('migrations/migrations-work'));
 
         migration.migrate(function(err, result) {
-          console.log('=====', err, result)
             should.not.exist(err);
             result.should.be.an('array');
             result.should.have.lengthOf(1);
@@ -87,8 +86,7 @@ describe('Mongration.Migration', function() {
         migration.addAllFromPath(dir);
 
         migration.migrate(function(err, result) {
-            console.log('#######=====', err, result)
-            //err.should.match(/unable to complete migration:/);
+            err.should.match(/unable to complete migration:/);
             result.should.be.an('array');
             result.should.have.lengthOf(1);
             result[0].should.deep.equal({id: '1', status: 'error'});
