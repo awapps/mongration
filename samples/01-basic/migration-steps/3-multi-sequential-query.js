@@ -8,9 +8,9 @@ module.exports = {
     up : function(db, cb){
         async.series(
             [
-                function(cb){db.collection('testcollection').insert({ name: 'initial-sequential-setup' }, cb)},
-                function(cb){db.collection('testcollection').insert({ name: 'second-sequential-setup' }, cb)},
-                function(cb){db.collection('testcollection').insert({ name: 'third-sequential-setup' }, cb)}
+                function(cb){db.collection('testcollection').insertOne({ name: 'initial-sequential-setup' }, cb)},
+                function(cb){db.collection('testcollection').insertOne({ name: 'second-sequential-setup' }, cb)},
+                function(cb){db.collection('testcollection').insertOne({ name: 'third-sequential-setup' }, cb)}
             ],
             cb
         );
@@ -19,9 +19,9 @@ module.exports = {
     down : function(db, cb){
         async.series(
             [
-                function(cb){db.collection('testcollection').remove({ name: 'initial-sequential-setup' }, cb)},
-                function(cb){db.collection('testcollection').remove({ name: 'second-sequential-setup' }, cb)},
-                function(cb){db.collection('testcollection').remove({ name: 'third-sequential-setup' }, cb)}
+                function(cb){db.collection('testcollection').deleteOne({ name: 'initial-sequential-setup' }, cb)},
+                function(cb){db.collection('testcollection').deleteOne({ name: 'second-sequential-setup' }, cb)},
+                function(cb){db.collection('testcollection').deleteOne({ name: 'third-sequential-setup' }, cb)}
             ],
             cb
         );

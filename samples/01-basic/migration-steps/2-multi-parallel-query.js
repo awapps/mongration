@@ -8,9 +8,9 @@ module.exports = {
     up : function(db, cb){
         async.parallel(
             [
-                function(cb){db.collection('testcollection').insert({ name: 'initial-parallel-setup' }, cb)},
-                function(cb){db.collection('testcollection').insert({ name: 'second-parallel-setup' }, cb)},
-                function(cb){db.collection('testcollection').insert({ name: 'third-parallel-setup' }, cb)}
+                function(cb){db.collection('testcollection').insertOne({ name: 'initial-parallel-setup' }, cb)},
+                function(cb){db.collection('testcollection').insertOne({ name: 'second-parallel-setup' }, cb)},
+                function(cb){db.collection('testcollection').insertOne({ name: 'third-parallel-setup' }, cb)}
             ],
             cb
         );
@@ -19,9 +19,9 @@ module.exports = {
     down : function(db, cb){
         async.series(
             [
-                function(cb){db.collection('testcollection').remove({ name: 'initial-parallel-setup' }, cb)},
-                function(cb){db.collection('testcollection').remove({ name: 'second-parallel-setup' }, cb)},
-                function(cb){db.collection('testcollection').remove({ name: 'third-parallel-setup' }, cb)}
+                function(cb){db.collection('testcollection').deleteOne({ name: 'initial-parallel-setup' }, cb)},
+                function(cb){db.collection('testcollection').deleteOne({ name: 'second-parallel-setup' }, cb)},
+                function(cb){db.collection('testcollection').deleteOne({ name: 'third-parallel-setup' }, cb)}
             ],
             cb
         );

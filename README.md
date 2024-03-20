@@ -106,11 +106,11 @@ module.exports = {
     id: '1-step',
 
     up : function(db, cb){
-        db.collection('testcollection').insert({ name: 'initial-setup' }, cb);
+        db.collection('testcollection').insertOne({ name: 'initial-setup' }, cb);
     },
 
     down : function(db, cb){
-        db.collection('testcollection').remove({ name: 'initial-setup' }, cb);
+        db.collection('testcollection').deleteOne({ name: 'initial-setup' }, cb);
     }
 }
 ```
@@ -153,9 +153,9 @@ module.exports = {
     up : function(db, cb){
         async.series(
             [
-                function(_cb){db.collection('testcollection').insert({ name: 'initial-setup' }, _cb)},
-                function(_cb){db.collection('othercollection').insert({ name: 'second-setup' }, _cb)},
-                function(_cb){db.collection('othercollection').insert({ name: 'third-setup' }, _cb)}
+                function(_cb){db.collection('testcollection').insertOne({ name: 'initial-setup' }, _cb)},
+                function(_cb){db.collection('othercollection').insertOne({ name: 'second-setup' }, _cb)},
+                function(_cb){db.collection('othercollection').insertOne({ name: 'third-setup' }, _cb)}
             ],
             cb
         );  
@@ -291,9 +291,9 @@ module.exports = {
     up : function(db, cb){
         async.series(
             [
-                function(cb){db.collection('testcollection').insert({ name: 'initial-sequential-setup' }, cb)},
-                function(cb){db.collection('testcollection').insert({ name: 'second-sequential-setup' }, cb)},
-                function(cb){db.collection('testcollection').insert({ name: 'third-sequential-setup' }, cb)}
+                function(cb){db.collection('testcollection').insertOne({ name: 'initial-sequential-setup' }, cb)},
+                function(cb){db.collection('testcollection').insertOne({ name: 'second-sequential-setup' }, cb)},
+                function(cb){db.collection('testcollection').insertOne({ name: 'third-sequential-setup' }, cb)}
             ],
             cb
         );
@@ -312,9 +312,9 @@ module.exports = {
     up : function(db, cb){
         async.parallel(
             [
-                function(cb){db.collection('testcollection').insert({ name: 'initial-parallel-setup' }, cb)},
-                function(cb){db.collection('testcollection').insert({ name: 'second-parallel-setup' }, cb)},
-                function(cb){db.collection('testcollection').insert({ name: 'third-parallel-setup' }, cb)}
+                function(cb){db.collection('testcollection').insertOne({ name: 'initial-parallel-setup' }, cb)},
+                function(cb){db.collection('testcollection').insertOne({ name: 'second-parallel-setup' }, cb)},
+                function(cb){db.collection('testcollection').insertOne({ name: 'third-parallel-setup' }, cb)}
             ],
             cb
         );
