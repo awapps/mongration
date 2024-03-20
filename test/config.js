@@ -1,5 +1,4 @@
 module.exports = {
-    hosts: 'localhost:27017',
-    db: 'mydb',
-    migrationCollection: 'mydbversion'
+  mongoUri: 'mongodb://rasp5:27017/mydb',
+  migrationCollection: 'mydbversion'
 };

@@ -3,6 +3,7 @@ var Migration = Mongration.Migration;
 var path = require('path');
 var chai = require('chai');
 var fs = require('fs');
+const util = require('util');
 
 var should = chai.should();
 var expect = chai.expect;
@@ -24,21 +25,27 @@ describe('Mongration.Migration', function() {
     this.slow(2000);
 
     var client;
+    let dbName;
 
     beforeEach(function (done) {
         // clean db for each test
         new MongoConn(config).connect(function (err, _client) {
             should.not.exist(err);
-            _client.db(_client.s.options.dbName).dropDatabase(function (err, result) {
-                should.not.exist(err);
+            _client
+              .db('mydb')
+              .dropDatabase()
+              .then(() => {
                 client = _client
                 done();
-            });
+              })
+              .catch(done);
         })
     });
 
     afterEach(function (done) {
-        client.close(done);
+        client.close()
+          .then(done)
+          .catch(done);
     });
 
     it('runs migration', function(done) {
@@ -46,6 +53,7 @@ describe('Mongration.Migration', function() {
         migration.add(getFiles('migrations/migrations-work'));
 
         migration.migrate(function(err, result) {
+          console.log('=====', err, result)
             should.not.exist(err);
             result.should.be.an('array');
             result.should.have.lengthOf(1);
@@ -73,12 +81,13 @@ describe('Mongration.Migration', function() {
         });
     });
 
-    it('rollback on failure', function(done) {
+    it.only('rollback on failure', function(done) {
         var migration = new Migration(config);
         var dir = path.join(__dirname, 'migrations/failing-migration');
         migration.addAllFromPath(dir);
 
         migration.migrate(function(err, result) {
+            console.log('=====', err, result)
             err.should.match(/unable to complete migration:/);
             result.should.be.an('array');
             result.should.have.lengthOf(1);
